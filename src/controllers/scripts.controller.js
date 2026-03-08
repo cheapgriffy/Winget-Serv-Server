@@ -25,11 +25,11 @@ const terminal_output_header = {
  * Check and convert data to required media
  * @param {raw data to send} content 
  * @param {banner to display in terminal mode} header 
+ * 
  * @param {local express res from sender} res 
  * @param {local req object from sender} req 
- * @param {*} userAgent 
  */
-function sendProcessing(content, header = undefined, res, req){
+const sendProcessing = async (content, header = undefined, res, req) => {
     // TODO OS detect
     // TODO I dont think curl get detected
     
@@ -45,9 +45,10 @@ function sendProcessing(content, header = undefined, res, req){
      * @returns terminal friendly string
      */
     const terminaliffy_send = (script, header) => {
-        console.log(`a terminal was detected. and got sent: ${script}`)
+        console.log("terminal demands")
         let current_header = ''
 
+        // choses header to display to user
         switch(header){
             case "error":
                 current_header = terminal_output_header.error
@@ -56,6 +57,15 @@ function sendProcessing(content, header = undefined, res, req){
                 current_header = terminal_output_header.caution
                 break
         }
+        
+        script = JSON.parse(script)
+        console.log(script)
+
+        let send_script = undefined
+        script.forEach(element => {
+            send_script += element
+        });
+        console.log(send_script)
 
         return current_header + script + `echo "\n\x1b[33mScript executed successfully\x1b[0m"`
     }
@@ -67,10 +77,11 @@ function sendProcessing(content, header = undefined, res, req){
     }
 }
 
+
 const createScript = async (req, res, next) => {
     const user_id = req.userId
     const { name, description } = req.body
-    const content = JSON.stringify(req.body.content)
+    const content = req.body.content
 
     try{
         if (!name || !description || !content){
@@ -95,4 +106,14 @@ const createScript = async (req, res, next) => {
     }
 }
 
-module.exports = { sendProcessing, createScript }
+const getScriptByPublicId = async (req, res, next) => {
+    try{
+        const script = await scriptModel.getScriptByPublicId(req.params.public_script_id)
+        sendProcessing(script.content, "caution", res, req)
+    } catch(err) {
+        console.log(err)
+        next(err)
+    }
+}
+
+module.exports = { sendProcessing, createScript, getScriptByPublicId }

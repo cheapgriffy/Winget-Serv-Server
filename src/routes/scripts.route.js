@@ -4,6 +4,8 @@ const auth = require("../middlewares/auth")
 
 router.post('/create', auth, scriptsController.createScript)
 
+router.get("/:public_script_id", scriptsController.getScriptByPublicId)
+
 router.get('/:user_id/:script_id', (req, res) => {
 
     const user_query = req.params.user_id

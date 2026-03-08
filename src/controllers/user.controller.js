@@ -115,6 +115,7 @@ const login = async (req, res, next) => {
             })
         }
 
+        // get user from db by username or email
         const user = await userModel.getByUsername(user_info.username) || await userModel.getByEmail(user_info.email)
 
         
