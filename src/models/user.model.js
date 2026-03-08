@@ -37,6 +37,15 @@ const getByUsername = async (username) => {
     return rows[0]
 }
 
+const getByEmail = async (email) => {
+    const [rows] = await pool.query(`
+        SELECT * FROM users WHERE email = ?
+        `, [email])
+
+    return rows[0]
+}
+
+
 const getById = async (id) => {
     const [rows] = await pool.query(`
         SELECT u.*, roles.name as role_name FROM users u
@@ -48,4 +57,4 @@ const getById = async (id) => {
 }
 
 
-module.exports = { createUser, getByUsername, removeById, getById }
+module.exports = { createUser, getByUsername, removeById, getById, getByEmail }

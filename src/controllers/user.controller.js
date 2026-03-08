@@ -106,24 +106,26 @@ const getById = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     try{
-        const user_info = { username, password } = req.body
+        const user_info = { username, email, password } = req.body
 
         if(!user_info){
             res.status(401).json({
                 error: "Bad Request",
-                message: "A username and a password is required"
+                message: "A username or email and password is required"
             })
         }
 
-        const user = await userModel.getByUsername(user_info.username)
+        const user = await userModel.getByUsername(user_info.username) || await userModel.getByEmail(user_info.email)
+
+        
         if(!user){
             return res.status(404).json({
                 error: "Creditential",
-                message: "Username not found"
+                message: "Username's or email not found"
             })
         }
 
-        
+        // password validation
         const valid_password = await bcrypt.compare(user_info.password, user.hashed_password)
         if(!valid_password){
             return res.status(404).json({
@@ -132,7 +134,7 @@ const login = async (req, res, next) => {
             })
         }
 
-        // store receved user.id from DB inside token
+        // store db user.id inside token
         const token = jwt.sign(
             { userId: user.id },
             process.env.JWT_SECRET,
