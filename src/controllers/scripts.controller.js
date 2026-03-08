@@ -45,8 +45,8 @@ const sendProcessing = async (content, header = undefined, res, req) => {
      * @returns terminal friendly string
      */
     const terminaliffy_send = (script, header) => {
-        console.log("terminal demands")
-        let current_header = ''
+        script = JSON.parse(script)
+        let current_header = undefined
 
         // choses header to display to user
         switch(header){
@@ -58,8 +58,6 @@ const sendProcessing = async (content, header = undefined, res, req) => {
                 break
         }
         
-        script = JSON.parse(script)
-        console.log(script)
 
         let send_script = undefined
         script.forEach(element => {
@@ -67,6 +65,7 @@ const sendProcessing = async (content, header = undefined, res, req) => {
         });
         console.log(send_script)
 
+        //TODO based on os detect, make a prompt that require userinput to run. to make user read header first
         return current_header + script + `echo "\n\x1b[33mScript executed successfully\x1b[0m"`
     }
 
@@ -77,7 +76,13 @@ const sendProcessing = async (content, header = undefined, res, req) => {
     }
 }
 
-
+/**
+ * Send Script to database
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 const createScript = async (req, res, next) => {
     const user_id = req.userId
     const { name, description } = req.body
@@ -106,6 +111,13 @@ const createScript = async (req, res, next) => {
     }
 }
 
+/**
+ * get script from database based on public id, and send it to process, to be execute
+ * require id param from ./scripts.route.js
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 const getScriptByPublicId = async (req, res, next) => {
     try{
         const script = await scriptModel.getScriptByPublicId(req.params.public_script_id)
