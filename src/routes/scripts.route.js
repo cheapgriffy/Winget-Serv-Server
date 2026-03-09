@@ -3,7 +3,7 @@ const scriptsController = require("../controllers/scripts.controller")
 const auth = require("../middlewares/auth")
 
 router.post('/create', auth, scriptsController.createScript)
-//TODO add delete function
+
 router.delete("/remove", auth, scriptsController.removeScript)
 
 // Works for terminal

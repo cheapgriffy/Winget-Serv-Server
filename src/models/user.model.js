@@ -1,4 +1,4 @@
-const pool = require("../config/db")
+const pool = require("../config/db").pool
 
 /**
  * Send a new user to the database
