@@ -1,4 +1,6 @@
 const scriptModel = require("../models/script.model")
+const userModel = require("../models/user.model")
+
 
 // This contain all "caution sign" that will be broadcasted to terminal
 const terminal_output_header = {
@@ -132,8 +134,31 @@ const removeScript = async (req, res, next) => {
     const user_id = req.userId
     const { id } = req.body
     try{
-        const response = await scriptModel.removeScript(user_id, id)
-        res.status(200).json(response)
+        const current_user = await userModel.getById(user_id)
+        const script = await scriptModel.getScriptById(id)
+
+        if(!script){
+            return res.status(404).json({
+                error: "Not found",
+                message: "Script not found"
+            })
+        }
+
+        // Check ownership
+        if(script.user_id != user_id || script.user_id == undefined || current_user.role_name != "admin"){
+            return res.status(403).json({
+                error: "Forbidden",
+                message: "You are not allowed to remove this script"
+            })
+        }
+
+        const response = await scriptModel.removeScript(user_id, id).then(() => {
+            res.status(200).json({
+                message: "Script removed succesfully",
+                script_id: id
+            })
+        })
+        
     } catch(err){
         console.log(err)
         next(err)

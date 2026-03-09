@@ -27,5 +27,8 @@
     "mysql2": "^3.18.2",
     "nanoid": "^5.1.6",
     "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
   }
 }
