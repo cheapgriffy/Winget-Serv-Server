@@ -11,13 +11,13 @@ const args = process.argv.slice(2);
 //? IF NONE params and .ENV => Default values
 
 let configVariables = {
-    PORT: 3000,
-    HOST: "localhost",
+    HOST: process.env.HOST || "localhost",
+    PORT: process.env.PORT || 3000,
 
     JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "24h",
 
     DB_HOST: process.env.DB_HOST || "localhost",
-    DB_PORT: 3306,
+    DB_PORT: process.env.DB_PORT || 3306,
     DB_LOGIN: process.env.DB_LOGIN || "root",
     DB_PASSWD: process.env.DB_PASSWD || "",
     DB_NAME: "winget_serv",
