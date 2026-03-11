@@ -9,27 +9,6 @@ const createUser = async (req, res, next) => {
     try{
         const user_info = { username, email, password } = req.body
 
-        // switch(user_info){
-        //     case !user_info.username:
-        //         res.status(400).json({
-        //             error: "Bad request",
-        //             message: "A username is required"
-        //         })
-        //         break
-        //     case !user_info.email:
-        //         res.status(400).json({
-        //             error: "Bad request",
-        //             message: "An email is required"
-        //         })
-        //         break
-        //     case !user_info.password:
-        //         res.status(400).json({
-        //             error: "Bad request",
-        //             message: "A password is required"
-        //         })
-        //         break
-        // }
-
         if(!user_info.username || !user_info.email || !user_info.password){
             res.status(400).json({
                 error: "Bad request",
@@ -68,13 +47,7 @@ const createUser = async (req, res, next) => {
 
 const removeUser = async (req, res, next) => {
     try{
-        const remove_request = { id } = req.body
-        if(!remove_request){
-            res.send(401).json({
-                error: "Bad Request",
-                message: "A user id is required"
-            })
-        }
+        const remove_requrest = req.body.id || req.userId 
 
         const current_user = await userModel.getById(req.userId)
         if(current_user.id != remove_request.id && current_user.role_name != "admin"){
@@ -83,7 +56,6 @@ const removeUser = async (req, res, next) => {
                 message: "You are not allowed to remove this user"
             })
         }
-
 
         const removed_user = await userModel.removeById(remove_request.id)
         res.status(200).json({
