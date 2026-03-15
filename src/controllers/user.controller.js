@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const configVariables = require("../config/launch.params").configVariables
 
 
-
 const createUser = async (req, res, next) => {
     try{
         const user_info = { username, email, password } = req.body

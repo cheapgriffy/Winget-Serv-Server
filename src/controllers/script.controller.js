@@ -105,7 +105,7 @@ const renderPowerShell = (script) => {
     const header = [
         `# ${script.name}`,
         script.description ? `# ${script.description}` : null,
-        header_warnings.execution_reminder,
+        //TODO caution header link
         "",
     ]
         .filter((l) => l !== null) //checks for empty script part
@@ -136,6 +136,8 @@ const renderBash = (script) => {
     return `${header}${body}\n`;
 }
 
+//TODO webUI is Claude made. Make it yourself dummy
+//! Wait for Artistic direction decision. 
 /**
  * Build an HTML page for browser preview.
  * @param {Script} script
@@ -339,6 +341,7 @@ const getScript = async (req, res) => {
         }
 
         const user_agent = req.headers["user-agent"] || "";
+        // dont forget, null user_agent is bash
         const terminal = isTerminalClient(user_agent);
 
         // check if os is already present in query. sometime is the case
@@ -400,7 +403,7 @@ const createScript = async (req, res) => {
             name: name.trim(),
             description: description?.trim() || null,
             content,
-            user_id: req.user.id, // set by requireAuth middleware
+            user_id: req.userId, // set by requireAuth middleware
         });
 
         return res.status(201).json(script);
@@ -431,7 +434,7 @@ const deleteScript = async (req, res) => {
 
         // Admins can delete any script; regular users only their own
         const isAdmin = req.user.role === "admin";
-        if (!isAdmin && script.user_id !== req.user.id) {
+        if (!isAdmin && script.user_id !== req.userId) {
             return res.status(403).json({ error: "Forbidden." });
         }
 
@@ -449,7 +452,7 @@ const deleteScript = async (req, res) => {
  */
 const getAllUserScript = async (req, res) => {
     try {
-        const scripts = await ScriptModel.findAllByUser(req.user.id);
+        const scripts = await ScriptModel.findAllByUser(req.userId);
         return res.status(200).json(scripts);
     } catch (err) {
         console.error("[script.controller] GET /list", err);
