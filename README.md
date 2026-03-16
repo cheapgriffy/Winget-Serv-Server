@@ -1,32 +1,32 @@
-﻿
-
 # Winget-Serv [WIP]
 
 ## Introduction
 
 ### A custom script link creation tool.
 
-#### Features
-- Create and manage your scripts from **Graphical Interface** *[coming soon]*,
-- Execute your script directly from a **link**
-- Automatisate your workspace setup's or quicly share configuration scripts
+#### What it does
+- Create scripts from a Graphical Interface
+- Make your script accesible from a link
+- Execute it from wherever you like with one command
 
-#### How does it work ?
-User choses wich app, wich custom commands to add to his script
+#### Why should I need it
+One link, and you're ready.
+Weither its for quick computer setup, or keeping quickly seting up your student workspaces.
+One command similar to this one (Powershell example)
+``irm https://<link>/script/Jkdèzl || iex``
 
-User receives a link that bundle everything and can be executed from any terminal for quick installation script acces.
+And you're script will be executed.
 
-``irm http://localhost/script/Jkdèzl || iex``
-
-The whole purpose of this API is to adapt script's to be safely executed on multiple OS and terminal emulators.
-
-WIth the posibility of the user to check the script, and have explaination on what's being executed
+#### Objectives
+Making script creation more intuitive and accesible.
+Making a such sensitive media more accesible can mean to troubles.
+That's why security measures, and constant reminder of script provider confiance will be bundled in the scripts.
 
 ---------------
 ## API Usage
 
 ### **User management**<br>
-Under the ``http://{localhost}:{port}/user`` subpage
+Under the ``https://{localhost}:{port}/user`` subpage
 
 #### **Create user** ``/user/create`` *POST*
 ```json
@@ -40,7 +40,7 @@ Under the ``http://{localhost}:{port}/user`` subpage
 *note, user role can only delete themselves, only the admin role need id*
 ```json
 {
-    "id": number
+    "id": "number"
 }
 ```
 
