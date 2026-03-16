@@ -28,7 +28,7 @@ That's why security measures, and constant reminder of script provider confiance
 ## API Usage
 
 ### **User management**<br>
-Under the ``http://{localhost}:{port}/user`` subpage
+Under the ``https://{localhost}:{port}/user`` subpage
 
 #### **Create user** ``/user/create`` *POST*
 ```json
@@ -42,7 +42,7 @@ Under the ``http://{localhost}:{port}/user`` subpage
 *note, user role can only delete themselves, only the admin role need id*
 ```json
 {
-    "id": number
+    "id": "number"
 }
 ```
 
@@ -72,13 +72,13 @@ Under the ``http://{localhost}:{port}/user`` subpage
 {
     "name": "string",
     "description": "string, can be null",       //require authentification
-    "content": JSON
+    "content": "JSON"
 }
 ```
 #### **Remove script** ``/script/remove`` *DELETE*<br>
 ```json
 {
-    "id": number        //require authentification
+    "id": "number"        //require authentification
 }
 ```
 
