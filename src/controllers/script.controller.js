@@ -106,7 +106,7 @@ const renderPowerShell = (script) => {
     const header = [
         `# ${script.name}`,
         script.description ? `# ${script.description}` : null,
-        //TODO caution header link
+        `# ${header_warnings.execution_reminder}`,
         "",
     ]
         .filter((l) => l !== null) //checks for empty script part
@@ -269,11 +269,11 @@ function renderHTML(script, publicUrl) {
 
     <div id="tab-ps" class="code-block visible">
       <button class="copy-btn" onclick="copyCode('tab-ps')">Copy</button>
-      irm ${escapeHtml(publicUrl)}?os=win | iex
+      irm ${escapeHtml(publicUrl)} | iex
     </div>
     <div id="tab-bash" class="code-block">
       <button class="copy-btn" onclick="copyCode('tab-bash')">Copy</button>
-      curl -fsSL ${escapeHtml(publicUrl)}?os=linux | bash
+      curl -fsSL ${escapeHtml(publicUrl)} | bash
     </div>
   </div>
 
