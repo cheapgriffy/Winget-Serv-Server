@@ -45,6 +45,7 @@ Confirm-Continue -Message "This script will install applications on your system.
 Write-Host " Proceeding with installation... " -ForegroundColor Green
 `
 
+
 // ---------------------------------------------------------------------------
 // OS detection helpers
 // ---------------------------------------------------------------------------
@@ -76,7 +77,6 @@ const detectOS = (user_agent = "") => {
  */
 function isTerminalClient(user_agent = "") {
     const s = user_agent.toLowerCase();
-    console.log(s)
     return (
         s.includes("curl") ||
         s.includes("wget") ||
@@ -89,12 +89,11 @@ function isTerminalClient(user_agent = "") {
     );
 }
 
+
 // ---------------------------------------------------------------------------
 // Script renderers
 // ---------------------------------------------------------------------------
 
-
-//TODO Send full uncensorred script rn. add verification and prompt's for confirmation
 /**
  * Build a PowerShell script string from a list of commands.
  * @param {Script} script
@@ -319,9 +318,6 @@ const escapeHtml = (str = "") => {
         .replace(/'/g, "&#039;");
 }
 
-// ---------------------------------------------------------------------------
-// Routes
-// ---------------------------------------------------------------------------
 
 /**
  * GET /script/:public_id
@@ -375,6 +371,7 @@ const getScript = async (req, res) => {
     }
 };
 
+
 /**
  * POST /script/create
  * Body: { name, description?, content: string[] }
@@ -412,6 +409,7 @@ const createScript = async (req, res) => {
     }
 };
 
+
 /**
  * DELETE /script/remove
  * Body: { id: number }
@@ -445,6 +443,7 @@ const deleteScript = async (req, res) => {
         res.status(500).json({ error: "Internal server error." });
     }
 };
+
 
 /**
  * GET /script/list
