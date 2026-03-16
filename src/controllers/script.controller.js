@@ -43,7 +43,7 @@ function Confirm-Continue {
 
 # Usage
 Confirm-Continue -Message "This script will install applications on your system."
-Write-Host "Proceeding with installation..." -ForegroundColor Green
+Write-Host " Proceeding with installation... " -ForegroundColor Green
 `
 
 // ---------------------------------------------------------------------------
@@ -112,7 +112,7 @@ const renderPowerShell = (script) => {
         .join("\n");  // From array to string with lignbreak
 
     const body = script.content.join("\n"); // execute + lignebreak
-    return `${header}${body}\n`;
+    return `${header}${powershell_prompt_template}${body}\n`;
 }
 
 /**
