@@ -1,5 +1,3 @@
-﻿
-
 # Winget-Serv [WIP]
 
 ## Introduction
@@ -65,25 +63,26 @@ Under the ``https://{localhost}:{port}/user`` subpage
 <br>
 
 ### **Script Management**<br>
-### Under the ``http://{localhost}:{port}/script`` subpage
+### Under the ``https://{link}:{port}/script`` subpage
 
 #### **Create script** ``/script/create`` *POST*
 ```json
 {
     "name": "string",
-    "description": "string, can be null",       //require authentification
-    "content": "JSON"
+    "description": "string, can be null",       // require authentification
+    "content": "ARRAY"
 }
 ```
 #### **Remove script** ``/script/remove`` *DELETE*<br>
 ```json
 {
-    "id": "number"        //require authentification
+    "id": "number"        // require authentification, and script being logged user ownership
 }
 ```
 
 #### **Execute / View script** *(on browser)* *GET*
 ``/script/:public_id`` 
+*Generally 8 chars*
 
 #### **Get all script from user** *GET*
 ``/script/list`` *Require authentification*
