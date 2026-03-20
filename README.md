@@ -22,7 +22,7 @@ Making script creation more intuitive and accesible.
 Making a such sensitive media more accesible can mean to troubles.
 That's why security measures, and constant reminder of script provider confiance will be bundled in the scripts.
 
----------------
+---
 ## API Usage
 
 ### **User management**<br>
@@ -88,7 +88,7 @@ Under the ``https://{localhost}:{port}/user`` subpage
 ``/script/list`` *Require authentification*
 
 
----------
+---
 
 ## Launch Parameters and Environement Variable
 
