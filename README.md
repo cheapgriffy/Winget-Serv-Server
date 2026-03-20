@@ -118,6 +118,7 @@ Change **login** used for database connection
 Change **password** used for database** connection
 
 #### ``--db-name=``
-
 Change database name used for database connection and creation
 
+#### ``-no-account-creation``
+Forbid account creation route from making change to Database

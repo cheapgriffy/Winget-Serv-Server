@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const userController = require("../controllers/user.controller")
 const auth = require("../middlewares/auth")
+const configVariables = require("../config/launch.params").configVariables
 
 
 router.post("/create", userController.createUser)

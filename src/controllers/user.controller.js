@@ -1,11 +1,19 @@
 const userModel = require("../models/user.model")
 const bcrypt = require("bcrypt");
+const { config } = require("dotenv");
 const jwt = require("jsonwebtoken");
 const configVariables = require("../config/launch.params").configVariables
 
 
 const createUser = async (req, res, next) => {
     try{
+        if(configVariables.NO_ACCOUNT_CREATION){
+            return res.status(403).json({
+                error: "Forbidden",
+                message: "Account creation is disabled by admin"
+            })
+        }
+
         const user_info = { username, email, password } = req.body
 
         if(!user_info.username || !user_info.email || !user_info.password){

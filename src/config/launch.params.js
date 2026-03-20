@@ -60,6 +60,9 @@ const helpMessage = `
     --help
     Display this message
 
+    --no-account-creation
+    Disable account creation
+
 `
 args.forEach(arg => {
     const [key, value] = arg.split('=');
@@ -94,6 +97,9 @@ args.forEach(arg => {
         case '--help':
             console.log(helpMessage)
             process.exit() 
+            break;
+        case '--no-account-creation':
+            configVariables.NO_ACCOUNT_CREATION = true;
             break;
         default:
             if (arg.startsWith('--')) {
