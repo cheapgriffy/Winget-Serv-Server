@@ -13,7 +13,12 @@ const pool = mysql.createPool({
 const testDBConnection = async () => {
     try{
         const [solution] = await pool.query("SELECT 1 + 1 AS solution",)
-        console.log("\x1b[32mDatabase is connected\x1b[0m")
+        console.log(`
+            \x1b[32m
+            -------------------------
+            ✔️  Database is connected
+            -------------------------
+            \x1b[0m`)
     } catch (err) {
         console.log(`
             \x1b[31m

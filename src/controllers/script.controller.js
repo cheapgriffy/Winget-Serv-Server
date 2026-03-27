@@ -28,13 +28,15 @@ function Confirm-Continue {
         $input = Read-Host "$Message [Y/n]"
         switch ($input.Trim().ToLower()) {
             "y" { return $true }
-            ""  { return $true }  # Enter = yes by default
             "n" {
                 Write-Host "Operation cancelled." -ForegroundColor Yellow
+                pause
                 exit 0
             }
             default {
                 Write-Host "Invalid input. Please enter Y or N." -ForegroundColor Red
+                pause
+                exit 0
             }
         }
     }
