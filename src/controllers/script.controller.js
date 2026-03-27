@@ -29,7 +29,7 @@ function Confirm-Continue {
         $input = Read-Host "$Message [Y/n]"
         switch ($input.Trim().ToLower()) {
             "y" { return $true }
-            ""  { return $true }  # Enter = yes by default
+            ""  { return $false }  # blank is false to prevent ENTER spamm
             "n" {
                 Write-Host "Operation cancelled." -ForegroundColor Yellow
                 exit 0
