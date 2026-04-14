@@ -122,3 +122,8 @@ Change database name used for database connection and creation
 
 #### ``-no-account-creation``
 Forbid account creation route from making change to Database
+
+
+## Developper Note 
+As a in-training project, this project aims to be built *AI free* to preserve learning efficacity.
+If you plan on doing full pull request please comment your code manually to prevent being lost in logic hell,
