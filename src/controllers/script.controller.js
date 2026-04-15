@@ -333,7 +333,6 @@ const resDownload = (script, res) => {
     script.content.forEach((e, i) => {
         script.content.length -1 == i  ? output += e : output += e + "\n"
     });
-    console.log(output)
 
     res.attachment(script.public_id + ".ps1")
     res.send(output)
