@@ -81,7 +81,8 @@ Under the ``https://{localhost}:{port}/user`` subpage
 ```
 
 #### **Execute / View script** *(on browser)* *GET*
-``/script/:public_id`` 
+``/script/:public_id`` <br>
+*optional ``?raw=true`` to download raw script content*<br>
 *Generally 8 chars*
 
 #### **Get all script from user** *GET*

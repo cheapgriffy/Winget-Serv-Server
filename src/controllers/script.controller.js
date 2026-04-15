@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ScriptModel = require("../models/script.model");
 const UserModel = require("../models/user.model");
+const e = require("express");
 
 // Using old ahh color escape methodes, cause foreground is only on powershell
 const header_warnings = {
@@ -322,16 +323,34 @@ const escapeHtml = (str = "") => {
 
 
 /**
+ * res as a downloadable script
+ * @param {Object} script will use script.content mainly 
+ * @param {oject} res Express res object 
+ */
+const resDownload = (script, res) => {
+    let output = ''
+
+    script.content.forEach((e, i) => {
+        script.content.length -1 == i  ? output += e : output += e + "\n"
+    });
+    console.log(output)
+
+    res.attachment(script.public_id + ".ps1")
+    res.send(output)
+}
+
+/**
  * GET /script/:public_id
  *
- * - Terminal client  → returns raw script (PS1 or SH) based on User-Agent or ?os=
- * - Browser client   → returns HTML preview page
+ * - Terminal client  => returns raw script (PS1 or SH) based on User-Agent or ?os=
+ * - Browser client   => returns HTML preview page
  *
  * Optional query param: ?os=win|linux|macos  (overrides UA detection)
  */
 const getScript = async (req, res) => {
     try {
         const script = await ScriptModel.findByPublicId(req.params.public_id);
+        const isRaw = req.query.raw === 'true';
 
         if (!script) {
             return res.status(404).json({ error: "Script not found." });
@@ -348,6 +367,7 @@ const getScript = async (req, res) => {
         else if (osOverride === "linux") os = "linux";
         else if (osOverride === "mac" || osOverride === "macos") os = "macos";
 
+        // Set safety header based on Useragent displayed OS
         if (terminal || osOverride) {
             // --- Raw script delivery ---
             if (os === "windows") {
@@ -365,7 +385,9 @@ const getScript = async (req, res) => {
         const baseUrl = `${req.protocol}://${req.get("host")}`;
         const publicUrl = `${baseUrl}/script/${script.public_id}`;
         res.setHeader("Content-Type", "text/html; charset=utf-8");
-        return res.send(renderHTML(script, publicUrl));
+
+        // check if needed to be downloaded from ?raw slug
+        return isRaw === false || undefined ? res.send(renderHTML(script, publicUrl)) : resDownload(script, res) ;
 
     } catch (err) {
         console.error("[script.controller] GET /:public_id", err);

@@ -19,7 +19,12 @@ const createUser = async (req, res, next) => {
         if(!user_info.username || !user_info.email || !user_info.password){
             res.status(400).json({
                 error: "Bad request",
-                message: "A provided field is blank"
+                message: "A provided field is blank",
+                template: {
+                    "username": "username",
+                    "email": "email@example.com",
+                    "password": "secret"
+                }
             })
         }
 
