@@ -440,13 +440,20 @@ const createScript = async (req, res) => {
  * @param {object} req sent by user 
  * @param {object} res sended to used
  */
-const uploadScript = async (req, res) => {
-    const fileData = req.file.buffer;
-    const textContent = fileData.toString('utf-8');
+const uploadScript = async (req, res, next) => {    
+    try {
+        if (!req.file || !req.file.buffer) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
 
-    const textArray = textContent.split("\r\n")
+        if (req.file.buffer.length === 0) {
+            return res.status(400).json({ error: "File must not be empty" });
+        }
 
-    try{
+        const textContent = req.file.buffer.toString('utf-8');
+        const textArray = textContent.split(/\r?\n/);
+
+
         const sentScript = await ScriptModel.create({
             name: req.file.originalname,
             description: null,
@@ -460,6 +467,7 @@ const uploadScript = async (req, res) => {
         })
 
     } catch(err) {
+        console.log(err)
         next(err)
         res.status(500).send({
             error: "Internal Server Error",
